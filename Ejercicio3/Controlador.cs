@@ -8,44 +8,59 @@ namespace Ejercicio3
 {
     class Controlador
     {
-        private Partidas partida;
-        private Jugador jugador;
-        private int cantPartidas;
-        private Partida[] mejoresPartidas;
+        private Partidas partidas = new Partidas();
+        private int cantPartidas, cantMejoresPartidas;
+        private Partida partidaActual;
 
         public Controlador()
         {
-            this.jugador = new Jugador("Nico");
-            this.partida = new Partidas(this.jugador);
-            this.cantPartidas = this.partida.CantidadMaxPartidas;
-        }
-
-        public String ObtenerPalabra(int i)
-        {            
-            return this.partida.Partida[i].ObtenerPalabra(); 
-        }
-
-        public void FinalizarPartida(int i)
-        {
-            this.partida.Partida[i].FinPartida();
-        }
-
-        public void IniciarPartida(int i)
-        {
-            this.partida.Partida[i].InicioPartida();
+            cantPartidas = this.partidas.CantidadMaxPartidas;
+            cantMejoresPartidas = this.partidas.CantMejoresPartidas;
         }
         
-        public Boolean ControlarIntentos(int numeroPartida,int intentosActuales)
+        public void CrearPartida(String nombre)//se crea una partida con el nombre del jugador en partida actual
         {
-            int cantIntentos = this.partida.Partida[numeroPartida].CantIntentos;
+            this.partidaActual = this.partidas.NuevaPartida(nombre);
+        }
+
+        public void GuardarPartidaActual()//la guarda solo si es mejor que la peor
+        {
+            partidas.GuardarPartida(partidaActual);
+        }
+
+        public String ObtenerPalabraPartidaActual()
+        {
+            String asd = this.partidaActual.ObtenerPalabra();
+            Console.WriteLine(asd);
+            return asd;
+        }
+
+        public void FinalizarPartidaActual()//se detiene el contador de tiempo
+        {
+            this.partidaActual.FinPartida();
+        }
+
+        public void IniciarPartidaActual()//se inicia el contador de tiempo
+        {
+            this.partidaActual.InicioPartida();
+        }
+        
+        public Boolean ControlarIntentosPartidaActual(int intentosActuales)
+        {
+            int cantIntentos = this.partidaActual.CantIntentos;
             if (intentosActuales == cantIntentos){ return false; }
                 else { return true; }
         }
 
-        public String ObtenerTiempoPartida(int i)
+        private String ObtenerTiempoPartida(Partida partida)
         {
-            TimeSpan tiempo = this.partida.Partida[i].ObtenerTiempo;
+            TimeSpan tiempo = partida.ObtenerTiempo;
             return tiempo.TotalMinutes+"m " + tiempo.TotalSeconds +"s "+ tiempo.TotalMilliseconds+"ms";
+        }
+
+        public String ObtenerTiempoPartidaActual()
+        {
+            return ObtenerTiempoPartida(this.partidaActual);
         }
 
         public int CantidadMaximaPartidas()
@@ -53,87 +68,22 @@ namespace Ejercicio3
             return this.cantPartidas;
         }
 
-        public void TablaPartidas()
+        public String[,] TablaPartidas()
         {
-            MejoresPartidas();//actualizacion de las mejores partidas
-            String[,] tablaPartidas = new String[5, 3];//5 filas(las mejores 5 partidas) y 3 columnas(numero partida,nombre jugador, tiempo)
+            int i = 0;
+            partidas.ActualizarYOrdenar();//actualizacion y ordenamiento de partidas
+            String[,] tablaPartidas = new String[cantMejoresPartidas, 3];//5 filas(las mejores 5 partidas) y 3 columnas(numero partida,nombre jugador, tiempo)
             for (int f = 0; f < tablaPartidas.GetLength(0); f++)
             {
-                int i = 0;
-                if (mejoresPartidas[i] != null)
+                if (partidas.ListaPartida[i] != null)
                 {
                     tablaPartidas[f, 0] = i + 1 + "";
-                    tablaPartidas[f, 1] = mejoresPartidas[i].Jugador.Nombre;
-                    tablaPartidas[f, 2] = mejoresPartidas[i].ObtenerTiempo + "";
+                    tablaPartidas[f, 1] = partidas.ListaPartida[i].NombreJugador;
+                    tablaPartidas[f, 2] = ObtenerTiempoPartida(partidas.ListaPartida[i]);
                 }
                 i++;
             }
+            return tablaPartidas;
         }
-
-        private Array MejoresPartidas()
-        {
-            int j = 0;
-            mejoresPartidas = new Partida[5];
-            for (int i = 0; i < this.cantPartidas; i++)
-            {
-                if (partida.Partida[i] != null)
-                {
-                    j++;
-                }
-            }
-            if (j < 6)
-            {
-                for (int i = 0; i < this.cantPartidas; i++)
-                {
-                    mejoresPartidas[i] = this.partida.Partida[i];
-                }
-            }
-            else
-            {
-                for (int i = 6; i < this.cantPartidas; i++)
-                {
-                    if (partida.Partida[i] != null)
-                    {
-                        if (PeorPartidaDeArray().ObtenerTiempo < partida.Partida[i].ObtenerTiempo)
-                        {
-                            ReemplazarEnMejoresPartidas(PeorPartidaDeArray(), partida.Partida[i]);
-                        }
-                    }
-                }
-            }
-            return mejoresPartidas;
-        }
-
-        private Partida PeorPartidaDeArray()
-        {
-            Partida menor = mejoresPartidas[0];
-            for (int i = 0; i < 6; i++)
-            {
-                if (mejoresPartidas[i] != null)
-                {
-                    if (menor.ObtenerTiempo > mejoresPartidas[i].ObtenerTiempo)
-                    {
-                        menor = mejoresPartidas[i];
-                    }
-                }
-            }
-            return menor;
-        }
-
-        private void ReemplazarEnMejoresPartidas(Partida oldPartida, Partida newPartida)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (mejoresPartidas[i] != null)
-                {
-                    if (mejoresPartidas[i] == oldPartida)
-                    {
-                        mejoresPartidas[i] = newPartida;
-                    }
-                }
-            }
-        }
-
-
     }
 }

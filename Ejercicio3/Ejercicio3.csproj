@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controlador.cs" />
-    <Compile Include="Jugador.cs" />
     <Compile Include="Partida.cs" />
     <Compile Include="Partidas.cs" />
     <Compile Include="Program.cs" />

@@ -12,15 +12,15 @@ namespace Ejercicio3
         private int cantIntentos;
         private DateTime fechaInicio;
         private DateTime fechaFin;
-        private Jugador jugador;
-        public Partida(int intentos, Jugador jugador)
+        private String jugador;
+        public Partida(int intentos, String nombreJugador)
         {
             this.palabras = new String[] 
                 {"casa", "arbol", "auto", "camion", "avion", "computadora", "robot", "numero", "palabra", "cancion",
                 "martillo","letra", "arroz","avioneta", "garra","trebol", "pasillo","camara", "autopista", "cazador",
                 "cable", "telefono","ventilador", "mate", "cafe", "termo", "cuchillo", "tenedor","cuchara", "lente" };
             this.cantIntentos = intentos;
-            this.jugador = jugador;
+            this.jugador = nombreJugador;
         }
 
         public void FinPartida()
@@ -44,6 +44,8 @@ namespace Ejercicio3
             return this.fechaFin;
         }
 
+        public String NombreJugador { get { return this.jugador; } }
+
         public int CantIntentos { get { return this.cantIntentos; } }
 
         public TimeSpan ObtenerTiempo {
@@ -54,6 +56,13 @@ namespace Ejercicio3
             }
         }
 
-        public Jugador Jugador { get { return this.jugador; } }
+        public int ObtenerMinuto
+        {
+            get
+            {
+                return ObtenerTiempo.Minutes;
+            }
+        }
+        
     }
 }
