@@ -1,0 +1,7 @@
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\obj\Debug\Ejercicio4.csprojResolveAssemblyReference.cache
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\obj\Debug\Ejercicio4.csproj.CoreCompileInputs.cache
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\bin\Debug\Ejercicio4.dll.config
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\bin\Debug\Ejercicio4.dll
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\bin\Debug\Ejercicio4.pdb
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\obj\Debug\Ejercicio4.dll
+D:\Users\lucio\Documents\Código\C#\TP2\Ejercicio4\obj\Debug\Ejercicio4.pdb
